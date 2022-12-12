@@ -57,47 +57,50 @@ exec CreateComment 6,'Ahmad',1,'Thank you got it'
 -------------------------------------------DeletePost---------------------------------------
 
 create procedure DeletePost
-	@postId int
+	@PostId int, @UserId int
 As
 Begin
-	delete from MyPosts where MyPosts.id = @postID;
+	delete from MyPosts where MyPosts.id = @postID and userId = @userId;
 End
-exec DeletePost @postId = 5
-
+exec DeletePost @postId = 7, @userId = 2 
+drop proc deletepost;
 -------------------------------------------EditPost---------------------------------------
 
 create procedure EditPost
-	@postId int,@title varchar(255), @content varchar(1000)
+	@postId int,@title varchar(255), @content varchar(1000), @userId int
 As
 Begin
 	update MyPosts
 	set title = @title,
 	content = @content
-	where id = @postId
+	where id = @postId and userId = @userId
 End
-exec EditPost 6, 'Hello edit', 'lorem ipsum edit'
+exec EditPost 7, 'Hello edit', 'lorem ipsum edit', 2
+
+drop proc editpost;
 
 -------------------------------------------DeleteComment---------------------------------------
 
 create procedure DeleteComment
-	@commentId int
+	@commentId int, @userId int
 As
 Begin
-	delete from MyComments where MyComments.id = @commentID;
+	delete from MyComments where MyComments.id = @commentID and userID = @userId;
 End
 exec DeleteComment @commentId = 12
-
+drop proc DeleteComment;
 -------------------------------------------EditComment---------------------------------------
 
 create procedure EditComment
-	@commentId int, @content varchar(1000)
+	@commentId int, @content varchar(1000), @userId int
 As
 Begin
 	update MyComments
 	set content = @content
-	where id = @commentId
+	where id = @commentId and userID = @userId
 End
 exec EditComment 13, 'Edited'
+drop proc EditComment;
 
 -------------------------------------------Vote---------------------------------------
 
@@ -120,4 +123,3 @@ Begin
 End
 
 exec Vote 6,'Down',1
-
